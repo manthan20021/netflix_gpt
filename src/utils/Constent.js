@@ -1,0 +1,1 @@
+export const LOGO_IMG_URL = "https://pngimg.com/uploads/netflix/netflix_PNG25.png"
