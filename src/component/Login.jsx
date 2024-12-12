@@ -1,10 +1,22 @@
-import React, { useState } from 'react'
+import { useRef, useState } from 'react'
 import Header from './Header'
-
+import { Validation } from '../utils/validate'
+//timestapm video 1.58m
 const Login = () => {
     const [isSingUp, setIsSingUp] = useState(false)
+    const [emailPassValideteion, setEmailPassValideteion] = useState(null)
+
+
+    const email = useRef(null)
+    const password = useRef(null)
+   
+
+    const validateHendeler = () => {
+      const validationMsg = Validation(email.current.value,password.current.value)
+      setEmailPassValideteion(validationMsg)
+    }
     const isSingUpHandler = () => {
-        setIsSingUp(!isSingUp)
+        setIsSingUp(!isSingUp);
     }
   return (
     <div className='
@@ -18,7 +30,9 @@ const Login = () => {
      flex items-center 
      justify-center text-white
      '>
-        <form className='
+        <form
+         onClick={(e) => e.preventDefault()}
+        className='
         bg-black 
         opacity-90 w-[450px] 
         h-[741px] py-12 px-16 
@@ -29,30 +43,39 @@ const Login = () => {
             mb-12
             '>{isSingUp ? "Sing Up" : "Sing In"}
             </h1>
-            {isSingUp && <input className='
+            
+            {isSingUp && <input
+            className='
             bg-gray-800 w-full 
             p-3 mb-5 rounded-md 
             text-white' type='text' 
             placeholder='Full name
             '/>}
-            <input className='
+            <input
+            ref={email}
+            className='
             bg-gray-800 w-full 
             p-3 mb-7 rounded-md 
             text-white' type='text' 
             placeholder='Email id
             '/>
-            <input className='
+            <input
+            ref={password}
+            className='
             bg-gray-800 w-full 
             p-3 mb-5 rounded-md 
             text-white' type='password' 
             placeholder='password
             '/>
-           
-            <button className='
+           <p className='text-red-700 mb-5 font-bold'>{emailPassValideteion}</p>
+            <button 
+            onClick={() => validateHendeler() }
+            className='
             bg-[#C11119] 
             mb-6 w-full p-2 
             rounded-md text-white
             '>{isSingUp ? "Sing Up" : "Sing In"}</button>
+
             <p>{isSingUp ? "Already registered? " : "New to NetflixGpt? "}
                <span onClick={()=>isSingUpHandler()} className='
                font-bold 
