@@ -33,8 +33,8 @@ const Login = () => {
         <form
          onClick={(e) => e.preventDefault()}
         className='
-        bg-black 
-        opacity-90 w-[450px] 
+        bg-red-500
+         w-[450px] 
         h-[741px] py-12 px-16 
         rounded-md 
         '>
