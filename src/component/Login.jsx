@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import Header from './Header'
-import { Validation } from '../utils/validate'
+import { validation } from '../utils/Validate'
 //timestapm video 1.58m
 const Login = () => {
     const [isSingUp, setIsSingUp] = useState(false)
@@ -12,7 +12,7 @@ const Login = () => {
    
 
     const validateHendeler = () => {
-      const validationMsg = Validation(email.current.value,password.current.value)
+      const validationMsg = validation(email.current.value,password.current.value)
       setEmailPassValideteion(validationMsg)
     }
     const isSingUpHandler = () => {
