@@ -33,10 +33,11 @@ const Login = () => {
         <form
          onClick={(e) => e.preventDefault()}
         className='
-        bg-green-500
+        bg-black
+        opacity-90
          w-[450px] 
         h-[741px] py-12 px-16 
-        rounded-md 
+        rounded-md
         '>
             <h1 className='
             font-bold text-4xl 
