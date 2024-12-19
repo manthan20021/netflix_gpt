@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import Header from './Header'
 import { validation } from '../utils/Validate'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 //timestapm video 1.58m
 const Login = () => {
     const [isSingUp, setIsSingUp] = useState(false)
@@ -14,6 +15,28 @@ const Login = () => {
     const validateHendeler = () => {
       const validationMsg = validation(email.current.value,password.current.value)
       setEmailPassValideteion(validationMsg)
+      if(validationMsg) return;
+
+      if(isSingUp){
+        const auth = getAuth
+        createUserWithEmailAndPassword(
+          auth, email.current.value,
+          password.current.value
+        )
+        .then((userCredential) => {
+          const user = userCredential.user
+          console.log(user);
+          
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message
+          console.log(errorMessage);
+          
+        })
+      } else{
+        //wright singUp logic
+      }
     }
     const isSingUpHandler = () => {
         setIsSingUp(!isSingUp);
@@ -33,10 +56,11 @@ const Login = () => {
         <form
          onClick={(e) => e.preventDefault()}
         className='
-        bg-red-500
+        bg-black
+        opacity-90
          w-[450px] 
         h-[741px] py-12 px-16 
-        rounded-md 
+        rounded-md
         '>
             <h1 className='
             font-bold text-4xl 
