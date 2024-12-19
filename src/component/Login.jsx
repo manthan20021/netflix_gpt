@@ -58,7 +58,8 @@ const Login = () => {
         className='
         bg-black
         opacity-90
-         w-[450px] 
+         sm:w-[450px] 
+         w-full
         h-[741px] py-12 px-16 
         rounded-md
         '>
