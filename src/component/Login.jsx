@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
 import Header from './Header'
 import { validation } from '../utils/Validate'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../utils/firebase'
 //timestapm video 1.58m
 const Login = () => {
-    const [isSingUp, setIsSingUp] = useState(false)
+    const [isSingUp, setIsSingUp] = useState(true)
     const [emailPassValideteion, setEmailPassValideteion] = useState(null)
 
 
@@ -12,32 +13,25 @@ const Login = () => {
     const password = useRef(null)
    
 
-    const validateHendeler = () => {
-      const validationMsg = validation(email.current.value,password.current.value)
-      setEmailPassValideteion(validationMsg)
+    const validateHendeler = async () => {
+      const validationMsg = await validation(email.current.value,password.current.value)
+      await setEmailPassValideteion(validationMsg)
       if(validationMsg) return;
-
+      
       if(isSingUp){
-        const auth = getAuth
-        createUserWithEmailAndPassword(
-          auth, email.current.value,
-          password.current.value
-        )
-        .then((userCredential) => {
-          const user = userCredential.user
-          console.log(user);
-          
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message
-          console.log(errorMessage);
-          
-        })
-      } else{
-        //wright singUp logic
+        //singup useer
+        try{
+        await createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+        const user = auth.currentUser;
+        console.log(user);
+        } catch (error){
+          alert(error.message, error.code) 
+        }
+      }else{
+        //singn in user
       }
     }
+
     const isSingUpHandler = () => {
         setIsSingUp(!isSingUp);
     }
