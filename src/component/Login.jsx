@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import Header from './Header'
 import { validation } from '../utils/Validate'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 //timestapm video 1.58m
 const Login = () => {
@@ -9,26 +9,38 @@ const Login = () => {
     const [emailPassValideteion, setEmailPassValideteion] = useState(null)
 
 
+
     const email = useRef(null)
     const password = useRef(null)
    
 
-    const validateHendeler = async () => {
-      const validationMsg = await validation(email.current.value,password.current.value)
-      await setEmailPassValideteion(validationMsg)
+    const validateHendeler = () => {
+      const validationMsg = validation(email.current.value,password.current.value)
+      setEmailPassValideteion(validationMsg)
       if(validationMsg) return;
       
       if(isSingUp){
-        //singup useer
         try{
-        await createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
-        const user = auth.currentUser;
-        console.log(user);
+        createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          const user = userCredential.user
+          console.log(user);
+        })
         } catch (error){
-          alert(error.message, error.code) 
+        
+          setEmailPassValideteion(error.messege)
+        
         }
       }else{
-        //singn in user
+       try{
+        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          const user = userCredential.user
+          console.log(user);
+        })
+       } catch (error){
+        setEmailPassValideteion(error.messege)
+       }
       }
     }
 
@@ -87,6 +99,7 @@ const Login = () => {
             placeholder='password
             '/>
            <p className='text-red-700 mb-5 font-bold'>{emailPassValideteion}</p>
+           
             <button 
             onClick={() => validateHendeler() }
             className='
