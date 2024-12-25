@@ -1,17 +1,34 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Header from './Header'
 import { validation } from '../utils/Validate'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth } from '../utils/firebase'
-//timestapm video 1.58m
+import { useDispatch } from 'react-redux'
+import { addUser, removeUser } from '../store/getUsersSlice'
+import { useNavigate } from 'react-router-dom'
+
+
+
 const Login = () => {
     const [isSingUp, setIsSingUp] = useState(true)
     const [emailPassValideteion, setEmailPassValideteion] = useState(null)
-
-
-
+    const name = useRef(null)
     const email = useRef(null)
     const password = useRef(null)
+    const dispatch = useDispatch()
+    const naviget = useNavigate()
+   
+    //adding user in appstore
+    useEffect(() => {
+      onAuthStateChanged(auth, (user) => {
+        if(user){
+          const {uid, email, displayName} = user;
+          dispatch(addUser({uid: uid, email: email, displayName: displayName}))
+        }else{
+          dispatch(removeUser())
+        }
+      })
+    },[])
    
 
     const validateHendeler = () => {
@@ -24,11 +41,19 @@ const Login = () => {
         createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
           const user = userCredential.user
-          console.log(user);
+          updateProfile(user, {
+            displayName: name.current.value
+          })
+          .then(()=>{
+            const {uid, email, displayName} = auth.currentUser;
+          dispatch(addUser({uid: uid, email: email, displayName: displayName}))
+            naviget("/browes")
+          })
         })
         } catch (error){
         
           setEmailPassValideteion(error.messege)
+          naviget("/")
         
         }
       }else{
@@ -36,10 +61,18 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
           const user = userCredential.user
-          console.log(user);
+          updateProfile(user, {
+            displayName: name.current.value
+          })
+          .then(()=>{
+            const {uid, email, displayName} = auth.currentUser;
+          dispatch(addUser({uid: uid, email: email, displayName: displayName}))
+            naviget("/browes")
+          })  
         })
        } catch (error){
         setEmailPassValideteion(error.messege)
+        naviget("/")
        }
       }
     }
@@ -76,6 +109,7 @@ const Login = () => {
             </h1>
             
             {isSingUp && <input
+            ref={name}
             className='
             bg-gray-800 w-full 
             p-3 mb-5 rounded-md 

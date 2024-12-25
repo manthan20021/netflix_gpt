@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Browes from './Browes'
 
 const Body = () => {
+  
     const appRouter = createBrowserRouter([
        {
         path:"/",

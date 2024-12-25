@@ -1,9 +1,10 @@
 import React from 'react'
+import Header from './Header'
 
 const Browes = () => {
   return (
     <div>
-      <h1 className='bg-green-400'>BROWES PAGE</h1>
+      <Header/>
     </div>
   )
 }
