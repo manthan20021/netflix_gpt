@@ -7,10 +7,10 @@ const getUsers = createSlice({
         addUser: (state, action) => {
             return action.payload
         },
-        removeUser: (state, action) => {
+        removeUser: () => {
             return null;
-        }
-    }
+        },
+    },
 })
 
 export const {addUser, removeUser} =  getUsers.actions;

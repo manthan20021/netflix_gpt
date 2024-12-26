@@ -1,24 +1,42 @@
 import { useNavigate } from 'react-router-dom'
 import { LOGO_IMG_URL } from '../utils/Constent'
-import { signOut } from 'firebase/auth'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
 import {auth} from "../utils/firebase"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { addUser, removeUser } from '../store/getUsersSlice'
 
 
 const Header = () => {  
 
+  const dispatch = useDispatch()
   const naviget = useNavigate()
   const user = useSelector((store) => store.user)
+
+     useEffect(() => {
+      const unsubscribe =  onAuthStateChanged(auth, (user) => {
+          if(user){
+            const {uid, email, displayName} = user;
+            dispatch(addUser({uid: uid, email: email, displayName: displayName}))
+            naviget("/browes")
+          }else{
+            dispatch(removeUser())
+            naviget("/")
+          }
+        })      
+
+        //unsubscribe when component unmount
+        return () => unsubscribe()
+      },[])
+     
 
   const handelLogOut = (e) => {
     e.preventDefault()
     signOut(auth)
     .then(() => {
-      naviget('/')
     }).catch((error) => {
       naviget("/error")
       alert(error)
-      
       
     })
   }

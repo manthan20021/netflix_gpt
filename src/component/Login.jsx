@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Header from './Header'
 import { validation } from '../utils/Validate'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { useDispatch } from 'react-redux'
-import { addUser, removeUser } from '../store/getUsersSlice'
-import { useNavigate } from 'react-router-dom'
+import { addUser} from '../store/getUsersSlice'
 
 
 
@@ -16,20 +15,7 @@ const Login = () => {
     const email = useRef(null)
     const password = useRef(null)
     const dispatch = useDispatch()
-    const naviget = useNavigate()
-   
-    //adding user in appstore
-    useEffect(() => {
-      onAuthStateChanged(auth, (user) => {
-        if(user){
-          const {uid, email, displayName} = user;
-          dispatch(addUser({uid: uid, email: email, displayName: displayName}))
-        }else{
-          dispatch(removeUser())
-        }
-      })
-    },[])
-   
+ 
 
     const validateHendeler = () => {
       const validationMsg = validation(email.current.value,password.current.value)
@@ -47,13 +33,10 @@ const Login = () => {
           .then(()=>{
             const {uid, email, displayName} = auth.currentUser;
           dispatch(addUser({uid: uid, email: email, displayName: displayName}))
-            naviget("/browes")
           })
         })
         } catch (error){
-        
-          setEmailPassValideteion(error.messege)
-          naviget("/")
+        setEmailPassValideteion(error.messege)
         
         }
       }else{
@@ -61,18 +44,11 @@ const Login = () => {
         signInWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
           const user = userCredential.user
-          updateProfile(user, {
-            displayName: name.current.value
-          })
-          .then(()=>{
-            const {uid, email, displayName} = auth.currentUser;
-          dispatch(addUser({uid: uid, email: email, displayName: displayName}))
-            naviget("/browes")
-          })  
+         console.log(user);
         })
+      
        } catch (error){
         setEmailPassValideteion(error.messege)
-        naviget("/")
        }
       }
     }
