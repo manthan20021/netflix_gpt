@@ -114,7 +114,7 @@ const Login = () => {
             onClick={() => validateHendeler() }
             className='
             bg-[#C11119] 
-            mb-6 w-full p-2 
+             p-2 
             rounded-md text-white
             '>{isSingUp ? "Sing Up" : "Sing In"}</button>
 

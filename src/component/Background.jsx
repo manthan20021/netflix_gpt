@@ -1,17 +1,16 @@
-import React from 'react'
 
-const Background = ({trailerMove}) => {
-  console.log(trailerMove);
+const Background = () => {
   
   return (
-    <div>
-         <iframe width="560" height="315" 
-         src="https://www.youtube.com/embed/tt3896198?si=bny--XuaKSjxPZJg" 
-         title="YouTube video player" 
-         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-         </iframe>
+    <div className='w-screen h-screen' >
+        {/* <iframe className='w-screen aspect-video'
+        src="https://www.youtube.com/embed/3H2JorGiA7Y?si=AapD6lzqtOOg_0MT?rel=0&autoplay=1&mute=1&loop=1&playlist=3H2JorGiA7Y&rel=0&controls=0"  
+        referrerPolicy="strict-origin-when-cross-origin" ></iframe> */}
 
-    </div>
+        <iframe className='w-screen aspect-video' 
+src="https://www.youtube.com/embed/EXeTwQWrcwY?si=n_TenaLkJudKfm93&amp;controls=0&autoplay=1&mute=1&loop=1&playlist=EXeTwQWrcwY&rel=0" 
+referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+</div>
   )
 }
 

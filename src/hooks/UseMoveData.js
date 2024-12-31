@@ -13,6 +13,7 @@ const UseMoveData = () => {
       const result = await response.json();
       console.log(result);
       dispatch(getMoves(result))
+      
     } catch (error) {
       console.error(error);
     }

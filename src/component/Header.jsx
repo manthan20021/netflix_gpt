@@ -41,13 +41,13 @@ const Header = () => {
     })
   }
   return (
-    <div className='w-full bg-gradient-to-b from-black flex justify-between items-center px-5'>
-      <img className='h-16 sm:block none' src={LOGO_IMG_URL} alt="netflex logo" />
+    <div className='absolute h-16 w-full bg-gradient-to-b from-blue-950 flex justify-between items-center px-5'>
+      <img className='sm:h-16 h-3' src={LOGO_IMG_URL} alt="netflex logo" />
       {
         user && <button 
         onClick={handelLogOut}
         className='
-        bg-red-500 font-bold text-white p-1 rounded-md'>
+        bg-red-500 sm:font-semibold text-white sm:px-3 sm:py-1 sm:text-md sm:text-[14px] text-[10px] sm:rounded-sm px-[1px]  '>
           LogOut
           </button>
 
