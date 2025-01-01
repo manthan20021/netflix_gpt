@@ -11,9 +11,7 @@ const UseMoveData = () => {
     try {
       const response = await fetch(MOVE_DATA, KEY_OPTIONS);
       const result = await response.json();
-      console.log(result);
       dispatch(getMoves(result))
-      
     } catch (error) {
       console.error(error);
     }
