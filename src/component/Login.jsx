@@ -1,43 +1,57 @@
 import { useRef, useState } from 'react'
 import Header from './Header'
 import { validation } from '../utils/Validate'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-//timestapm video 1.58m
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { auth } from '../utils/firebase'
+import { useDispatch } from 'react-redux'
+import { addUser} from '../store/getUsersSlice'
+
+
+
 const Login = () => {
-    const [isSingUp, setIsSingUp] = useState(false)
+    const [isSingUp, setIsSingUp] = useState(true)
     const [emailPassValideteion, setEmailPassValideteion] = useState(null)
-
-
+    const name = useRef(null)
     const email = useRef(null)
     const password = useRef(null)
-   
+    const dispatch = useDispatch()
+ 
 
     const validateHendeler = () => {
       const validationMsg = validation(email.current.value,password.current.value)
       setEmailPassValideteion(validationMsg)
       if(validationMsg) return;
-
+      
       if(isSingUp){
-        const auth = getAuth
-        createUserWithEmailAndPassword(
-          auth, email.current.value,
-          password.current.value
-        )
+        try{
+        createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
         .then((userCredential) => {
           const user = userCredential.user
-          console.log(user);
-          
+          updateProfile(user, {
+            displayName: name.current.value
+          })
+          .then(()=>{
+            const {uid, email, displayName} = auth.currentUser;
+          dispatch(addUser({uid: uid, email: email, displayName: displayName}))
+          })
         })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message
-          console.log(errorMessage);
-          
+        } catch (error){
+        setEmailPassValideteion(error.messege)
+        
+        }
+      }else{
+       try{
+        signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+        .then((userCredential) => {
+          const user = userCredential.user
         })
-      } else{
-        //wright singUp logic
+      
+       } catch (error){
+        setEmailPassValideteion(error.messege)
+       }
       }
     }
+
     const isSingUpHandler = () => {
         setIsSingUp(!isSingUp);
     }
@@ -70,6 +84,7 @@ const Login = () => {
             </h1>
             
             {isSingUp && <input
+            ref={name}
             className='
             bg-gray-800 w-full 
             p-3 mb-5 rounded-md 
@@ -93,11 +108,12 @@ const Login = () => {
             placeholder='password
             '/>
            <p className='text-red-700 mb-5 font-bold'>{emailPassValideteion}</p>
+           
             <button 
             onClick={() => validateHendeler() }
             className='
             bg-[#C11119] 
-            mb-6 w-full p-2 
+             p-2 
             rounded-md text-white
             '>{isSingUp ? "Sing Up" : "Sing In"}</button>
 
