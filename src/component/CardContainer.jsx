@@ -4,8 +4,6 @@ import Card from './Card';
 
 const CardContainer = ({mainMovis}) => {
 
-    // const drama = mainMovis.filter(dramaMoveis => dramaMoveis.genre == 'Drama')
-    // console.log(drama);
     
    
   return (
@@ -15,7 +13,6 @@ const CardContainer = ({mainMovis}) => {
                 return  <Card  key={movie.id} cardMove={movie}/>
             })
         }
-       
     </div>
   )
 }
