@@ -8,7 +8,7 @@ const Secondary = () => {
          console.log(movies);
 
   return (
-    <div className='h-auto w-[100%] '>
+    <div className='w-[100%]'>
 
      <CardContainer mainMovis={movies}/>
     </div>
