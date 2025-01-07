@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Browes from './Browes'
 
 const Body = () => {
+  
     const appRouter = createBrowserRouter([
        {
         path:"/",
@@ -14,10 +15,11 @@ const Body = () => {
        },
     ])
   return (
-    <div>
+    <div >
         <RouterProvider router={appRouter}/>
     </div>
   )
 }
 
 export default Body
+

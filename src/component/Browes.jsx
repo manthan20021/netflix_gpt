@@ -1,9 +1,18 @@
-import React from 'react'
+import UseMoveData from '../hooks/UseMoveData'
+import Header from './Header'
+import Main from './Main'
+import Secondary from './Secondary'
+
 
 const Browes = () => {
+  UseMoveData()
+
+ 
   return (
     <div>
-      <h1 className='bg-green-400'>BROWES PAGE</h1>
+      <Header/>
+      <Main/>
+      <Secondary/>
     </div>
   )
 }
